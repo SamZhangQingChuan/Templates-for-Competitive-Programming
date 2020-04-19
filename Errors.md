@@ -19,6 +19,7 @@
 - 重新写一遍
 - 及时取模
 - 取消同步后混用
+- 二分时有负数要写 `l+(r-l)/2`
 
 ```bash
 alias gao=g++ -O2 -Wall -Wextra -pedantic -Wshadow -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -fsanitize=address -fsanitize=undefined
