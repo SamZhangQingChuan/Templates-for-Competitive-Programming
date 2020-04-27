@@ -1,3 +1,4 @@
+// index from 0 to n - 1
 class Articulation {
 public:
     static const int N = 1000005; // 最大结点个数
