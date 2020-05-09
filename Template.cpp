@@ -1,5 +1,5 @@
-//#pragma comment(linker, "/stack:200000000")
-//#pragma GCC optimize("Ofast")
+#pragma comment(linker, "/stack:200000000")
+#pragma GCC optimize("Ofast")
 //#pragma GCC optimize(3)
 //#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,tune=native")
 //#pragma GCC target("sse3","sse2","sse")
@@ -22,9 +22,10 @@
 #define fw(x) freopen(x,"w",stdout)
 #define REP(x, l, u) for(ll x = l;x<u;x++)
 #define RREP(x, l, u) for(ll x = l;x>=u;x--)
-#define complete_unique(a) a.erase(unique(a.begin(),a.end()),a.end())
+#define complete_unique(a) a.erase(unique(begin(a),end(a)),end(a))
 #define mst(x, a) memset(x,a,sizeof(x))
 #define all(a) begin(a),end(a)
+#define rall(a) rbegin(a),rend(a)
 #define PII pair<int,int>
 #define PLL pair<ll,ll>
 #define MP make_pair

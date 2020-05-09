@@ -12,7 +12,7 @@ inline T cmp(T a, T b, T e = eps) {
     return std::abs(a - b) >= e + std::abs(a) * e ? a - b : 0;
 }
 
-inline flt fix(flt x, flt e = eps) { return cmp(x, 0., e); }
+inline flt fix(flt x, flt e = eps) { return cmp(x, flt(0), e); }
 
 template<class T>
 struct Point {
