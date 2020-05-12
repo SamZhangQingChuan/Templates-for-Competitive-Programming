@@ -1,7 +1,8 @@
 // 1-based
 // 支持char/int/ll
-// push  - 加在末尾
-// build - 重建
+// push      - 加在末尾
+// build     - 重建
+// hash(l,r) - 获取 [l,r] 的 hash
 struct Hashing {
     array<ll, 2> seed, mod;
     array<vector<ll>, 2> hs, pw;
