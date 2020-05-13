@@ -138,7 +138,7 @@ namespace SOLVE {
 
 
 signed main() {
-#ifndef ONLINE_JUDGE
+#ifdef LOCAL
     fr("/Users/zhangqingchuan/Desktop/cp/cp/input.txt");
     fw("/Users/zhangqingchuan/Desktop/cp/cp/output.txt");
 #endif
