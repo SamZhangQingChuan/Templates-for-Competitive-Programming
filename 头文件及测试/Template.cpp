@@ -80,7 +80,7 @@ void debug_out(Head H, Tail... T) {
     debug_out(T...);
 }
 
-#ifndef ONLINE_JUDGE
+#ifdef LOCAL
 #define dbg(...) cerr << "[" << #__VA_ARGS__ << "]:", debug_out(__VA_ARGS__)
 #else
 #define dbg(...) {}
