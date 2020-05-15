@@ -199,8 +199,10 @@ struct LinearRecurrence {
         return a;
     }
     
-    LinearRecurrence(const vec &s, const vec &c, int64 mod) :
-            init(s), trans(c), mod(mod), m(s.size()) {}
+    LinearRecurrence (const vec &s, const vec &c, int64 mod) :
+            init (s), trans (c), mod (mod), m (s.size ()) {
+        assert(s.size() == c.size());
+    }
     
     LinearRecurrence(const vec &s, int64 mod, bool is_prime) : mod(mod) {
         assert(s.size() % 2 == 0);
