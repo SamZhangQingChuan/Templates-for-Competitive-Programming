@@ -111,11 +111,12 @@ template<typename T>
 T sqr(T x) { return x * x; }
 
 ll gcd(ll a, ll b) {
+    a = abs(a),b = abs(b);
     while(b != 0) {
         a %= b;
         swap(a, b);
     }
-    return abs(a);
+    return a;
 }
 
 ll fast(ll a, ll b, ll mod) {
