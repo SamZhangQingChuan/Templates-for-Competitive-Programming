@@ -149,7 +149,7 @@ bool intersect(const point &A, flt ra, const point &B, flt rb, point &P, point &
 // check if line AB intesect circle O, intersection will store in P and Q
 bool intersect(const point &A, const point &B, const point &O, flt r, point &P, point &Q) {
     point AB(B - A), AO(O - A);
-    double dis = fabs(AB.det(AO)) / AB.norm();
+    flt dis = fabs(AB.det(AO)) / AB.norm();
     if(sgn(dis - r) > 0) return false;
     point M = A + AB * (AB.dot(AO) / AB.norm2());
     dis = sqrt(fix(r * r - dis * dis));
