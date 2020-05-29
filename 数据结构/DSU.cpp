@@ -3,7 +3,7 @@ struct DSU {
     
     void init(int n) { data.assign(n, -1); }
 
-    bool unionSet(int y, int x) {
+    bool merge(int y, int x) {
         x = root(x);
         y = root(y);
         if (x != y) {
