@@ -50,34 +50,34 @@ typedef vector<int> VI;
 const ll mod = 1e9 + 7;
 
 
-string to_string(string s) { return '"' + s + '"'; }
+string to_string (string s) { return '"' + s + '"'; }
 
-string to_string(const char *s) { return to_string((string) s); }
+string to_string (const char *s) { return to_string ((string) s); }
 
-string to_string(bool b) { return (b ? "true" : "false"); }
+string to_string (bool b) { return (b ? "true" : "false"); }
 
 template<typename A, typename B>
-string to_string(pair<A, B> p) { return "(" + to_string(p.first) + ", " + to_string(p.second) + ")"; }
+string to_string (pair<A, B> p) { return "(" + to_string (p.first) + ", " + to_string (p.second) + ")"; }
 
 template<typename A>
-string to_string(A v) {
+string to_string (A v) {
     bool first = true;
     string res = "{";
-    for(const auto &x : v) {
-        if(!first) { res += ", "; }
+    for (const auto &x : v) {
+        if (!first) { res += ", "; }
         first = false;
-        res += to_string(x);
+        res += to_string (x);
     }
     res += "}";
     return res;
 }
 
-void debug_out() { cerr << endl; }
+void debug_out () { cerr<<endl; }
 
 template<typename Head, typename... Tail>
-void debug_out(Head H, Tail... T) {
-    cerr << " " << to_string(H);
-    debug_out(T...);
+void debug_out (Head H, Tail... T) {
+    cerr<<" "<<to_string (H);
+    debug_out (T...);
 }
 
 #ifdef LOCAL
@@ -87,43 +87,53 @@ void debug_out(Head H, Tail... T) {
 #endif
 
 template<typename T, typename S>
-inline bool upmin(T &a, const S &b) { return a > b ? a = b, 1 : 0; }
+inline bool upmin (T &a, const S &b) { return a > b ? a = b, 1 : 0; }
 
 template<typename T, typename S>
-inline bool upmax(T &a, const S &b) { return a < b ? a = b, 1 : 0; }
+inline bool upmax (T &a, const S &b) { return a < b ? a = b, 1 : 0; }
 
 
-ull twop(ll x) { return 1ULL << x; }
+ull twop (ll x) { return 1ULL<<x; }
 
-ll MOD(ll a, ll m) {
+ll MOD (ll a, ll m) {
     a %= m;
-    if(a < 0)a += m;
+    if (a < 0)a += m;
     return a;
 }
 
-ll inverse(ll a, ll m) {
-    a = MOD(a, m);
-    if(a <= 1)return a;
-    return MOD((1 - inverse(m, a) * m) / a, m);
+ll inverse (ll a, ll m) {
+    a = MOD (a, m);
+    if (a <= 1)return a;
+    return MOD ((1 - inverse (m, a) * m) / a, m);
 }
 
 template<typename T>
-T sqr(T x) { return x * x; }
+T sqr (T x) { return x * x; }
 
-ll gcd(ll a, ll b) {
-    a = abs(a),b = abs(b);
-    while(b != 0) {
+ll gcd (ll a, ll b) {
+    a = abs (a), b = abs (b);
+    while (b != 0) {
         a %= b;
-        swap(a, b);
+        swap (a, b);
     }
     return a;
 }
 
-ll fast(ll a, ll b, ll mod) {
-    if(b < 0)a = inverse(a, mod), b = -b;
+ll fast (ll a, ll b) {
     ll ans = 1;
-    while(b) {
-        if(b & 1)ans = ans * a % mod;
+    while (b) {
+        if (b & 1)ans *= a;
+        a *= a;
+        b /= 2;
+    }
+    return ans;
+}
+
+ll fast (ll a, ll b, ll mod) {
+    if (b < 0)a = inverse (a, mod), b = -b;
+    ll ans = 1;
+    while (b) {
+        if (b & 1)ans = ans * a % mod;
         a = a * a % mod;
         b /= 2;
     }
@@ -132,13 +142,13 @@ ll fast(ll a, ll b, ll mod) {
 
 
 namespace SOLVE {
-    void main() {
+    void main () {
     
     }
 }
 
 
-signed main() {
+signed main () {
 #ifdef LOCAL
     fr("/Users/zhangqingchuan/Desktop/cp/cp/input.txt");
     fw("/Users/zhangqingchuan/Desktop/cp/cp/output.txt");
@@ -147,9 +157,9 @@ signed main() {
     
     int t = 1;
 //    cin >> t;
-    for(int i = 1; i <= t; i++) {
+    for (int i = 1; i <= t; i++) {
 //        cout<<"Case #"<<i<<": ";
-        SOLVE::main();
+        SOLVE::main ();
         
     }
 
