@@ -11,7 +11,6 @@ namespace Poly {
         }
     }
     
-    
     // res = 1 / poly
     void inv (int poly[], int res[], int n) {
         int deg = n - 1;
@@ -63,26 +62,6 @@ namespace Poly {
         }
         if (++tmp3[0] == mod) tmp3[0] = 0;
         fft::conv (tmp3, res, n, n, mod, res);
-        memset (res + n, 0, sizeof (*res) * n);
-    }
-    
-    // res = sqrt(poly), poly[0] should be 1
-    void sqrt (int poly[], int res[], int n) {
-        if (n == 1) {
-            res[0] = 1;
-            return;
-        }
-        sqrt (poly, res, n>>1);
-        inv (res, tmp2, n);
-        int s = n<<1;
-        memcpy (tmp1, poly, sizeof (*poly) * n);
-        memset (tmp1 + n, 0, sizeof (*tmp1) * n);
-        memset (res + n, 0, sizeof (*res) * n);
-        // NTT::trans(tmp1, s, 1); NTT::trans(res, s, 1); NTT::trans(tmp2, s, 1);
-        for (int i = 0; i < s; ++i) {
-            res[i] = ((ll) res[i] * res[i] + tmp1[i]) % mod * iv[2] % mod * tmp2[i] % mod;
-        }
-        // NTT::trans(res, s, -1)
         memset (res + n, 0, sizeof (*res) * n);
     }
 }
