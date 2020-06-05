@@ -17,8 +17,8 @@
 // - - BFS from start vertex, all vertices u with out_deg[u] > 0 must be visited
 // - Check validity after run
 namespace EulerPath {
-    const bool UNDIRECTED = 0;
-    const int DEFAULT_SOURCE = 0;
+    const bool UNDIRECTED = ;
+    const int DEFAULT_SOURCE = ;
     
     struct Edge {
         int to;
@@ -64,18 +64,18 @@ namespace EulerPath {
     pair<State, int> test (const int n) {
         if (UNDIRECTED) {
             int cnt = 0;
-            REP(i, 0, n) {
+            REP(i, 0, n+1) {
                 cnt += (deg[i] % 2);
             }
             if (cnt == 0) {
-                REP(i, 0, n) {
+                REP(i, 0, n+1) {
                     if (sz(adj[i]) > 0) {
                         return MP (CIRCUIT, i);
                     }
                 }
                 return MP (CIRCUIT, DEFAULT_SOURCE);
             } else if (cnt == 2) {
-                REP(i, 0, n) {
+                REP(i, 0, n+1) {
                     if (sz(adj[i]) % 2 != 0) {
                         return MP (PATH, i);
                     }
@@ -86,15 +86,15 @@ namespace EulerPath {
             }
             
         } else {
-            fill (deg, deg + n, 0);
-            REP(i, 0, n) {
+            fill (deg, deg + n+1, 0);
+            REP(i, 0, n+1) {
                 for (auto e:adj[i]) {
                     deg[i]++;
                     deg[e.to]--;
                 }
             }
             int src = -1;
-            REP(i, 0, n) {
+            REP(i, 0, n+1) {
                 if (deg[i] > 0) {
                     if (src == -1) {
                         src = i;
@@ -104,7 +104,7 @@ namespace EulerPath {
                 }
             }
             if (src == -1) {
-                REP(i, 0, n) {
+                REP(i, 0, n+1) {
                     if (sz(adj[i]) > 0) {
                         return MP (CIRCUIT, i);
                     }
