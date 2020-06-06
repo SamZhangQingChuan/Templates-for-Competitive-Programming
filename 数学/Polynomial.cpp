@@ -1,7 +1,9 @@
 using fft::N;
 
+
+// call init before use
 namespace Poly {
-    int tmp1[N], tmp2[N], tmp3[N], mod = ;
+    int tmp1[N], tmp2[N], tmp3[N], mod = 998244353;
     int iv[N];
     
     void init () {
@@ -11,8 +13,13 @@ namespace Poly {
         }
     }
     
+    void prepare (int poly[], int n) {
+        for (int i = 0; i < n; i++)poly[i] = MOD (poly[i], mod);
+    }
+    
     // res = 1 / poly
     void inv (int poly[], int res[], int n) {
+        prepare (poly, n);
         int deg = n - 1;
         std::vector<int> degs;
         while (deg > 0) {
@@ -34,6 +41,7 @@ namespace Poly {
     
     // res = ln(poly), poly[0] should be 1
     void log (int poly[], int res[], int n) {
+        prepare (poly, n);
         assert(poly[0] == 1);
         inv (poly, tmp2, n);
         for (int i = 0; i < n - 1; ++i) {
@@ -48,6 +56,7 @@ namespace Poly {
     
     // res = exp(poly), poly[0] should be 0
     void exp (int poly[], int res[], int n) {
+        prepare (poly, n);
         assert(poly[0] == 0);
         while (n & n - 1)n += lowbit(n);
         if (n == 1) {
@@ -63,5 +72,25 @@ namespace Poly {
         if (++tmp3[0] == mod) tmp3[0] = 0;
         fft::conv (tmp3, res, n, n, mod, res);
         memset (res + n, 0, sizeof (*res) * n);
+    }
+    
+    // res = sqrt(poly), poly[0] should be 1
+    void sqrt (int poly[], int res[], int n) {
+        prepare (poly, n);
+        assert(poly[0] == 1);
+        while (n & (n - 1)) n += n & (-n);
+        if (n == 1) {
+            res[0] = 1;
+            return;
+        }
+        sqrt (poly, res, n>>1);
+        fill (tmp2 + n / 2, tmp2 + n, 0);
+        fill (res + n / 2, res + n, 0);
+        inv (res, tmp2, n);
+        
+        fft::conv (poly, tmp2, n, n, mod, tmp1);
+        for (int i = 0; i < n; i++) {
+            res[i] = (ll) iv[2] * ((res[i] + tmp1[i]) % mod) % mod;
+        }
     }
 }
