@@ -1,36 +1,18 @@
-// - When choosing starting vertex (for calling find_path), make sure deg[start] > 0.
-// - If find Euler path, starting vertex must have odd degree.
-// - Check no solution: SZ(path) == nEdge + 1.
-//
-// Tested:
-// - https://open.kattis.com/problems/eulerianpath (directed)
-// - SGU 101 (undirected).
-//
-// If directed:
-// - Edge --> int
-// - add_edge(int a, int b) { adj[a].push_back(b); }
-// - set the source
-// - Check for no solution:
-// - - for all u, |in_deg[u] - out_deg[u]| <= 1
-// - - At most 1 vertex with in_deg[u] - out_deg[u] = 1
-// - - At most 1 vertex with out_deg[u] - in_deg[u] = 1 (start vertex)
-// - - BFS from start vertex, all vertices u with out_deg[u] > 0 must be visited
-// - Check validity after run
+// 0-indexed [0..n-1]
 namespace EulerPath {
-    const bool UNDIRECTED = ;
-    const int DEFAULT_SOURCE = ;
+    const bool UNDIRECTED =;
     
     struct Edge {
-        int to;
+        int from, to;
         list<Edge>::iterator rev;
         
-        Edge (int to) : to (to) {}
+        Edge (int from, int to) : from (from), to (to) {}
     };
     
-    const int N = 2000010;
+    const int N = 1000010;
     list<Edge> adj[N];
     vector<Edge> path; // our result
-    int deg[N];
+    int inDeg[N];
     
     void find_path (int v) {
         while (adj[v].size () > 0) {
@@ -43,11 +25,45 @@ namespace EulerPath {
         }
     }
     
-    void add_edge (int a, int b) {
-        adj[a].push_front (Edge (b));
+    
+    int getSource (int n, int default_source) {
+        if (UNDIRECTED) {
+            REP(i, 0, n) {
+                if (sz(adj[i]) % 2 == 1)return i;
+            }
+            REP(i, 0, n) {
+                if (sz(adj[i]))return i;
+            }
+        } else {
+            fill (inDeg, inDeg + n, 0);
+            REP(i, 0, n) {
+                for (auto e:adj[i])inDeg[e.to]++;
+            }
+            REP(i, 0, n) {
+                if (sz(adj[i]) > inDeg[i])return i;
+            }
+            REP(i, 0, n) {
+                if (sz(adj[i]))return i;
+            }
+        }
+        return default_source;
+    }
+    
+    
+    bool verify (int n, int m) {
+        if (sz(path) != m)return false;
+        for (int i = 1; i < m; i++) {
+            if (path[i].from != path[i - 1].to)return false;
+        }
+        return true;
+    }
+    
+    
+    void addEdge (int a, int b) {
+        adj[a].push_front (Edge (a, b));
         auto ita = adj[a].begin ();
         if (UNDIRECTED) {
-            adj[b].push_front (Edge (a));
+            adj[b].push_front (Edge (b, a));
             auto itb = adj[b].begin ();
             ita->rev = itb;
             itb->rev = ita;
@@ -55,96 +71,26 @@ namespace EulerPath {
     }
     
     
-    enum State {
-        CIRCUIT,
-        PATH,
-        IMPOSSIBLE
-    };
-    
-    pair<State, int> test (const int n) {
-        if (UNDIRECTED) {
-            int cnt = 0;
-            REP(i, 0, n+1) {
-                cnt += (deg[i] % 2);
-            }
-            if (cnt == 0) {
-                REP(i, 0, n+1) {
-                    if (sz(adj[i]) > 0) {
-                        return MP (CIRCUIT, i);
-                    }
-                }
-                return MP (CIRCUIT, DEFAULT_SOURCE);
-            } else if (cnt == 2) {
-                REP(i, 0, n+1) {
-                    if (sz(adj[i]) % 2 != 0) {
-                        return MP (PATH, i);
-                    }
-                }
-                return MP (CIRCUIT, DEFAULT_SOURCE);
-            } else {
-                return MP (IMPOSSIBLE, DEFAULT_SOURCE);
-            }
-            
-        } else {
-            fill (deg, deg + n+1, 0);
-            REP(i, 0, n+1) {
-                for (auto e:adj[i]) {
-                    deg[i]++;
-                    deg[e.to]--;
-                }
-            }
-            int src = -1;
-            REP(i, 0, n+1) {
-                if (deg[i] > 0) {
-                    if (src == -1) {
-                        src = i;
-                    } else {
-                        return MP (IMPOSSIBLE, DEFAULT_SOURCE);
-                    }
-                }
-            }
-            if (src == -1) {
-                REP(i, 0, n+1) {
-                    if (sz(adj[i]) > 0) {
-                        return MP (CIRCUIT, i);
-                    }
-                }
-                return MP (CIRCUIT, DEFAULT_SOURCE);
-            } else {
-                return MP (PATH, src);
-            }
-        }
-    }
-    
     void init (int n, int m) {
-        REP(i, 0, n + 1)adj[i].clear ();
+        REP(i, 0, n)adj[i].clear ();
         path.clear ();
         REP(i, 0, m) {
             int a, b;
             cin>>a>>b;
-            add_edge (a, b);
+            addEdge (a, b);
         }
     }
     
+    
     void work (int n, int m) {
-        //add edge
         init (n, m);
-        auto type = test (n);
-        int source = type.se;
-        if (type.fi == IMPOSSIBLE) {
-            cout<<"Impossible"<<endl;
-            return;
-        }
+        int source = getSource (n, n - 1);
         find_path (source);
         reverse (all(path));
-        if (sz(path) != m) {
-            cout<<"Impossible"<<endl;
+        if (!verify (n, m)) {
+            cout<<"No solution"<<endl;
         } else {
-            if (m) {
-                cout<<source<<" ";
-                for (auto e:path)cout<<e.to<<" ";
-            }
-            cout<<endl;
+            // output solution
         }
     }
 }
