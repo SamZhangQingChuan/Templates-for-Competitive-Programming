@@ -6,7 +6,7 @@ namespace CircleSquareTree {
     };
     
     
-    const ll N = 200010;
+    const ll N = 500010*2; //开两倍
     
     ll low[N], dfn[N], cnt = 1, square;
     vector<Edge> adj[N];
@@ -60,13 +60,13 @@ namespace CircleSquareTree {
         }
     }
     
-    
+    // 圆方树在realAdj，编号为 [1,square)
     void run (int n, vector<PLL > edges) {
-        mst(low, 0);
-        mst(dfn, 0);
+        fill (low, low + n + 1, 0);
+        fill (dfn, dfn + n + 1, 0);
         cnt = 1, square = n + 1;
-        REP(i, 0, N)adj[i].clear ();
-        REP(i, 0, N)realAdj[i].clear ();
+        REP(i, 0, (n + 1) * 2)adj[i].clear ();
+        REP(i, 0, (n + 1) * 2)realAdj[i].clear ();
         stack.clear ();
         REP(i, 0, sz (edges)) {
             addEdge (edges[i].fi, edges[i].se, i);
@@ -75,7 +75,6 @@ namespace CircleSquareTree {
         REP(i, 1, square) {
             sort (all(realAdj[i]));
             complete_unique(realAdj[i]);
-            dbg(realAdj[i]);
         }
     }
 }
