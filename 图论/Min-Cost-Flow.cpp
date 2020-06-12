@@ -3,7 +3,7 @@
 template<typename flow_t, typename cost_t>
 struct MCMF {
     static const int N = 5010, M = 1000000;
-    const flow_t inf = 1e9;
+    const cost_t inf = 1e9;
     
     struct node {
         int from, to, nxt;
