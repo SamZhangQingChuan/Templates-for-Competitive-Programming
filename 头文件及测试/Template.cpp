@@ -153,6 +153,9 @@ signed main () {
     fr("/Users/zhangqingchuan/Desktop/cp/cp/input.txt");
     fw("/Users/zhangqingchuan/Desktop/cp/cp/output.txt");
 #endif
+    ios::sync_with_stdio (false);
+    cin.tie (nullptr);
+    cout.tie (nullptr);
     
     
     int t = 1;
