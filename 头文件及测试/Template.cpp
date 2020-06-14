@@ -119,17 +119,8 @@ ll gcd (ll a, ll b) {
     return a;
 }
 
-ll fast (ll a, ll b) {
-    ll ans = 1;
-    while (b) {
-        if (b & 1)ans *= a;
-        a *= a;
-        b /= 2;
-    }
-    return ans;
-}
-
 ll fast (ll a, ll b, ll mod) {
+    a %= mod;
     if (b < 0)a = inverse (a, mod), b = -b;
     ll ans = 1;
     while (b) {
