@@ -1,4 +1,3 @@
-// 0-indexed [0..n-1]
 namespace EulerPath {
     const bool UNDIRECTED =;
     
@@ -10,8 +9,8 @@ namespace EulerPath {
     };
     
     const int N = 1000010;
-    list<Edge> adj[N];
-    vector<Edge> path; // our result
+    list <Edge> adj[N];
+    vector <Edge> path; // our result
     int inDeg[N];
     
     void find_path (int v) {
@@ -28,30 +27,35 @@ namespace EulerPath {
     
     int getSource (int n, int default_source) {
         if (UNDIRECTED) {
-            REP(i, 0, n) {
-                if (sz(adj[i]) % 2 == 1)return i;
+            REP (i, 0, n)
+            {
+                if (sz (adj[i]) % 2 == 1)return i;
             }
-            REP(i, 0, n) {
-                if (sz(adj[i]))return i;
+            REP (i, 0, n)
+            {
+                if (sz (adj[i]))return i;
             }
         } else {
             fill (inDeg, inDeg + n, 0);
-            REP(i, 0, n) {
+            REP (i, 0, n)
+            {
                 for (auto e:adj[i])inDeg[e.to]++;
             }
-            REP(i, 0, n) {
-                if (sz(adj[i]) > inDeg[i])return i;
+            REP (i, 0, n)
+            {
+                if (sz (adj[i]) > inDeg[i])return i;
             }
-            REP(i, 0, n) {
-                if (sz(adj[i]))return i;
+            REP (i, 0, n)
+            {
+                if (sz (adj[i]))return i;
             }
         }
         return default_source;
     }
     
     
-    bool verify (int n, int m) {
-        if (sz(path) != m)return false;
+    bool verify (int m) {
+        if (sz (path) != m)return false;
         for (int i = 1; i < m; i++) {
             if (path[i].from != path[i - 1].to)return false;
         }
@@ -71,26 +75,35 @@ namespace EulerPath {
     }
     
     
-    void init (int n, int m) {
-        REP(i, 0, n)adj[i].clear ();
+    void init (int n, const vector <PII> &edges) {
+        REP (i, 0, n + 1)
+        adj[i].clear ();
         path.clear ();
-        REP(i, 0, m) {
+        for (auto e:edges) {
             int a, b;
-            cin>>a>>b;
+            tie (a, b) = e;
             addEdge (a, b);
         }
     }
     
     
-    void work (int n, int m) {
-        init (n, m);
-        int source = getSource (n, n - 1);
-        find_path (source);
-        reverse (all(path));
-        if (!verify (n, m)) {
-            cout<<"No solution"<<endl;
+    void work (const vector <PII> &edges) {
+        if (sz (edges) == 0) {
+            // empty edge list
         } else {
-            // output solution
+            int n = 0;
+            for (auto e:edges) {
+                n = max (n, max (e.first, e.second));
+            }
+            init (n, edges);
+            int source = getSource (n, edges[0].first);
+            find_path (source);
+            reverse (all (path));
+            if (!verify (sz (edges))) {
+                cout<<"No solution"<<endl;
+            } else {
+                // output solution
+            }
         }
     }
 }
