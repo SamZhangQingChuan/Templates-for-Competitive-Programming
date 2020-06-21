@@ -12,6 +12,11 @@ namespace HLD {
     int dfnToID[maxn], dfn[maxn], head[maxn], fa[maxn], size[maxn], heavy[maxn], r[maxn], cnt = 1;
     ll dep[maxn];
     
+    void addEdge (int u, int v, int len = 1) {
+        adj[u].emplace_back (v, len);
+        adj[v].emplace_back (u, len);
+    }
+    
     void firstDfs(int cur, int _fa) {
         size[cur] = 1;
         fa[cur] = _fa;

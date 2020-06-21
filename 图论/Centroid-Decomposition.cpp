@@ -31,7 +31,7 @@ namespace CentroidDecomposition {
     
     int solve(int root) {
         calc_size(root, -1);
-        PII center = MP(inf, -1);
+        PII center = MP(1e9, -1);
         find_center(root, -1, siz[root], center);
         vis[center.se] = true;
         for(auto e:adj[center.se]) {
