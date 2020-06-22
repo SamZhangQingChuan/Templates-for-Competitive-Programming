@@ -107,14 +107,13 @@ namespace fft {
         return res;
     }
     
-    VI conv (const VI &a, const VI &b, const int mod) {
+    VI conv (const VI &a, const VI &b, const int n, const int m, const int mod) {
         int s = 1, L = 0;
-        const int n = a.size (), m = b.size ();
         while (s <= n + m - 2) s <<= 1, ++L;
         init (L);
         for (int i = 0; i < s; ++i) {
-            A[i] = i < n ? Complex (a[i] / M, a[i] % M) : Complex ();
-            B[i] = i < m ? Complex (b[i] / M, b[i] % M) : Complex ();
+            A[i] = i < n ? Complex (MOD (a[i], mod) / M, MOD (a[i], mod) % M) : Complex ();
+            B[i] = i < m ? Complex (MOD (b[i], mod) / M, MOD (b[i], mod) % M) : Complex ();
         }
         trans (A, s, 1);
         trans (B, s, 1);
