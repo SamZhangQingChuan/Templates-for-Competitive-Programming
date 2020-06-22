@@ -2,11 +2,11 @@ namespace fft {
     const int N = 1<<20, M = 31768;
     
     struct Complex {
-        double x, y;
+        long double x, y;
         
         Complex () { x = y = 0; }
         
-        Complex (double _x, double _y) { x = _x, y = _y; }
+        Complex (long double _x, long double _y) { x = _x, y = _y; }
         
         Complex operator+ (const Complex &r) const {
             return Complex (x + r.x, y + r.y);
@@ -16,11 +16,11 @@ namespace fft {
             return Complex (x - r.x, y - r.y);
         }
         
-        Complex operator* (const double k) const {
+        Complex operator* (const long double k) const {
             return Complex (x * k, y * k);
         }
         
-        Complex operator/ (const double k) const {
+        Complex operator/ (const long double k) const {
             return Complex (x / k, y / k);
         }
         
@@ -38,14 +38,14 @@ namespace fft {
         }
     };
     
-    const double pi = acos (-1.0);
+    const long double pi = M_PI;
     Complex w[N];
     int rev[N];
     
     void init (int L) {
         int n = 1<<L;
         for (int i = 0; i < n; ++i) {
-            double ang = 2 * pi * i / n;
+            long double ang = 2 * pi * i / n;
             w[i] = Complex (cos (ang), sin (ang));
             rev[i] = (rev[i>>1]>>1) | ((i & 1)<<(L - 1));
         }
@@ -77,31 +77,8 @@ namespace fft {
     
     Complex A[N], B[N], C1[N], C2[N];
     
-    std::vector<ll> conv (const std::vector<int> &a, const std::vector<int> &b) {
-        int n = a.size (), m = b.size (), L = 0, s = 1;
-        while (s <= n + m - 2) s <<= 1, ++L;
-        init (L);
-        for (int i = 0; i < s; ++i) {
-            A[i] = i < n ? Complex (a[i], 0) : Complex ();
-            B[i] = i < m ? Complex (b[i], 0) : Complex ();
-        }
-        trans (A, s, 1);
-        trans (B, s, 1);
-        for (int i = 0; i < s; ++i) {
-            A[i] = A[i] * B[i];
-        }
-        for (int i = 0; i < s; ++i) {
-            w[i] = w[i].conj ();
-        }
-        trans (A, s, -1);
-        std::vector<ll> res (n + m - 1);
-        for (int i = 0; i < n + m - 1; ++i) {
-            res[i] = (ll) (A[i].x + 0.5);
-        }
-        return res;
-    }
     
-    std::vector<ll> fast_conv (const std::vector<int> &a, const std::vector<int> &b) {
+    VLL conv (const VI &a, const VI &b) {
         int n = a.size (), m = b.size (), L = 0, s = 1;
         for (; s <= n + m - 2; s <<= 1, ++L);
         s >>= 1, --L;
@@ -119,9 +96,9 @@ namespace fft {
             C1[i] = (Complex (4, 0) * (A[j] * B[j]).conj () -
                      (A[j].conj () - A[i]) * (B[j].conj () - B[i]) * (w[i] + Complex (1, 0))) * Complex (0, 0.25);
         }
-        std::reverse (w + 1, w + s);
+        reverse (w + 1, w + s);
         trans (C1, s, -1);
-        std::vector<ll> res (n + m);
+        VLL res (n + m);
         for (int i = 0; i <= (n + m - 1) / 2; ++i) {
             res[i<<1] = ll (C1[i].y + 0.5);
             res[i<<1 | 1] = ll (C1[i].x + 0.5);
@@ -130,9 +107,9 @@ namespace fft {
         return res;
     }
     
-    // arbitrary modulo convolution
-    void conv (int a[], int b[], int n, int m, int mod, int res[]) {
+    VI conv (const VI &a, const VI &b, const int mod) {
         int s = 1, L = 0;
+        const int n = a.size (), m = b.size ();
         while (s <= n + m - 2) s <<= 1, ++L;
         init (L);
         for (int i = 0; i < s; ++i) {
@@ -154,6 +131,7 @@ namespace fft {
         }
         trans (C1, s, -1);
         trans (C2, s, -1);
+        VI res (n + m - 1);
         for (int i = 0; i < n + m - 1; ++i) {
             int x = ll (C1[i].x + 0.5) % mod;
             int y1 = ll (C1[i].y + 0.5) % mod;
@@ -161,5 +139,6 @@ namespace fft {
             int z = ll (C2[i].y + 0.5) % mod;
             res[i] = ((ll) x * M * M + (ll) (y1 + y2) * M + z) % mod;
         }
+        return res;
     }
 }
