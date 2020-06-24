@@ -2,6 +2,7 @@
 namespace NTT {
     const int mod = 998244353, g = 3;
     // 1004535809 3
+    // 1005060097 5
     // 167772161  3
     // 469762049 3
     // 924844033 5
@@ -278,6 +279,18 @@ namespace Poly {
         }
     }
     
+    VI secondStirling (const int n) {
+        init (n);
+        VI a (begin (facinv), begin (facinv) + n + 1), b (begin (facinv), begin (facinv) + n + 1);
+        ll cur = 1;
+        REP(i, 0, n + 1) {
+            if (i & 1)b[i] = mod - b[i];
+            a[i] = MOD (a[i] * fast (i, n, mod), mod);
+        }
+        auto res = conv (a, b, n + 1, n + 1);
+        res.resize (n + 1);
+        return res;
+    }
     
     
     // TODO: Multi Point Eval
