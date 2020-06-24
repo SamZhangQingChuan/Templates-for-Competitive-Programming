@@ -1,7 +1,11 @@
 
 namespace NTT {
     const int mod = 998244353, g = 3;
-    
+    // 1004535809 3
+    // 167772161  3
+    // 469762049 3
+    // 924844033 5
+    // 104857601 3
     void bit_reverse_swap (VI &a) {
         int n = sz (a);
         for (int i = 1, j = n>>1, k; i < n - 1; i++) {
