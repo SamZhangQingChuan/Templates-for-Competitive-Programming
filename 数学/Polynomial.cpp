@@ -76,8 +76,7 @@ namespace Poly {
             auto new_res = conv (res, res, n, n, mod);
             new_res = conv (poly, new_res, min (2 * n, sz (poly)), sz (new_res), mod);
             res.resize (2 * n, 0);
-            REP (i, 0, 2 * n)
-            {
+            REP (i, 0, 2 * n) {
                 res[i] = (2ll * res[i] - (i < sz (new_res) ? new_res[i] : 0) + mod) % mod;
             }
             n *= 2;
@@ -89,8 +88,7 @@ namespace Poly {
     VI integrate (const VI &poly) {
         init (sz (poly));
         VI res (sz (poly), 0);
-        REP (i, 1, sz (res))
-        {
+        REP (i, 1, sz (res)) {
             res[i] = poly[i - 1] * (ll) iv[i] % mod;
         }
         return res;
@@ -98,8 +96,7 @@ namespace Poly {
     
     VI differentiate (const VI &poly) {
         VI res (sz (poly), 0);
-        REP (i, 0, sz (res) - 1)
-        {
+        REP (i, 0, sz (res) - 1) {
             res[i] = poly[i + 1] * ll (i + 1) % mod;
         }
         return res;
@@ -120,8 +117,7 @@ namespace Poly {
             tmp = res;
             tmp.resize (2 * n, 0);
             tmp = log (tmp);
-            REP (i, 0, 2 * n)
-            {
+            REP (i, 0, 2 * n) {
                 tmp[i] = (ll (i == 0) - tmp[i] + (i < sz (poly) ? poly[i] : 0) + mod) % mod;
             }
             res = conv (res, tmp, n, 2 * n, mod);
@@ -195,14 +191,13 @@ namespace Poly {
         VI res (1);
         res[0] = modSqrt (poly[0], mod);
         if (res[0] == -1)return res;
-        res[0] = min (res[0], mod - res[0]);
+        upmin (res[0], mod - res[0]);
         int n = 1;
         while (n < len) {
             n *= 2;
             res.resize (n, 0);
             auto other = conv (poly, inv (res), min (2 * n, sz (poly)), n, mod);
-            REP (i, 0, n)
-            {
+            REP (i, 0, n) {
                 res[i] = (res[i] + other[i]) * ll (iv[2]) % mod;
             }
         }
@@ -215,7 +210,7 @@ namespace Poly {
     }
     
     //
-    pair <VI, VI> divmod (VI f, VI g) {
+    pair<VI, VI> divmod (VI f, VI g) {
         auto removeTrailingZeros = [] (VI &poly) {
             while (sz (poly) and poly.back () == 0)poly.pop_back ();
         };
@@ -230,13 +225,12 @@ namespace Poly {
         };
         auto rg = rev (g);
         rg.resize (n, 0);
-        auto q = (conv (rev (f), inv (rg), sz (f), sz (rg)));
+        auto q = (conv (rev (f), inv (rg), sz (f), sz (rg), mod));
         q.resize (n - m + 1, 0);
         q = rev (q);
-        auto prod = conv (g, q, sz (g), sz (q));
+        auto prod = conv (g, q, sz (g), sz (q), mod);
         auto r = f;
-        REP (i, 0, sz (r))
-        r[i] = (r[i] - prod[i] + mod) % mod;
+        REP (i, 0, sz (r))r[i] = (r[i] - prod[i] + mod) % mod;
         r.resize (m, 0);
         removeTrailingZeros (r);
         return MP (q, r);
@@ -245,16 +239,14 @@ namespace Poly {
     VI shift (const VI &poly, const int n) {
         init (sz (poly));
         VI a (sz (poly)), b (sz (poly));
-        REP (i, 0, sz (a))
-        a[i] = (ll) fac[i] * poly[i] % mod;
+        REP (i, 0, sz (a))a[i] = (ll) fac[i] * poly[i] % mod;
         for (int i = 0, prod = 1; i < sz (poly); i++, prod = (ll) prod * n % mod) {
             b[i] = (ll) facinv[i] * prod % mod;
         }
         VI res (sz (poly));
         reverse (all (b));
-        a = conv (a, b, sz (a), sz (b));
-        REP (i, 0, sz (res))
-        {
+        a = conv (a, b, sz (a), sz (b), mod);
+        REP (i, 0, sz (res)) {
             res[i] = (ll) a[i + sz (poly) - 1] * facinv[i] % mod;
         }
         return res;
@@ -267,11 +259,10 @@ namespace Poly {
         else {
             VI a = signedFirstStirling (n / 2);
             VI b = shift (a, mod - n / 2);
-            a = conv (a, b, sz (a), sz (b));
+            a = conv (a, b, sz (a), sz (b), mod);
             if (n & 1) {
                 a.PB (0);
-                RREP (i, n, 0)
-                {
+                RREP (i, n, 0) {
                     a[i] = (ll (a[i]) * (mod - (n - 1)) + (i > 0 ? a[i - 1] : 0)) % mod;
                 }
             }
@@ -287,7 +278,7 @@ namespace Poly {
             if (i & 1)b[i] = mod - b[i];
             a[i] = MOD (a[i] * fast (i, n, mod), mod);
         }
-        auto res = conv (a, b, n + 1, n + 1);
+        auto res = conv (a, b, n + 1, n + 1, mod);
         res.resize (n + 1);
         return res;
     }
