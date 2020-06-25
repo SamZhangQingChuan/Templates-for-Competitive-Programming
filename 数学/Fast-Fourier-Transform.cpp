@@ -81,7 +81,7 @@ namespace fft {
     VLL conv (const VI &a, const VI &b) {
         int n = a.size (), m = b.size (), L = 0, s = 1;
         for (; s <= n + m - 2; s <<= 1, ++L);
-        s >>= 1, --L;
+        if (L > 2) s >>= 1, --L;
         init (L);
         for (int i = 0; i < s; ++i) {
             A[i].x = (i<<1) < n ? a[i<<1] : 0;
