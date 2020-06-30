@@ -76,7 +76,7 @@ struct SAM {
     }
     
     ll getNumOfDistinctSubstrings () {
-        auto ans = 0;
+        ll ans = 0;
         REP(i, 1, cnt)ans += no[i].len - no[i].fail->len;
         return (ans);
     }
