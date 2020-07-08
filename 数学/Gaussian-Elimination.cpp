@@ -24,25 +24,38 @@ bool gauss(flt a[][MAXN], flt b[], int n) {
     return 1;
 }
 
-int det_mod(int n, int mod, vector <vector<int>> mat) {
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            mat[i][j] %= mod;
-        }
-    }
+
+// mod 可为合数
+int det_mod (const int n, const int mod, vector<vector<int>> mat) {
+    assert(mod > 0);
+    assert(sz (mat) == n and sz (mat[0]) == n);
+    for (auto &row:mat)
+        for (auto &elem:row)
+            elem = MOD (elem, mod);
     ll ret = 1;
-    for (int i = 0; i < n; ++i) {
-        for (int j = i + 1; j < n; ++j)
-            for (; mat[j][i]; ret = -ret) {
-                ll t = mat[i][i] / mat[j][i];
-                for (int k = i; k < n; ++k) {
-                    mat[i][k] = (mat[i][k] - mat[j][k] * t) % mod;
-                    std::swap(mat[j][k], mat[i][k]);
+    for (int col = 0; col < n; col++) {
+        for (int row = col + 1; row < n; row++) {
+            if (mat[row][col]) {
+                int co = inverse (mat[row][col] / gcd (mat[row][col], mod), mod);
+                if (co != 1) {
+                    for (auto &v:mat[row]) {
+                        v = (ll) v * co % mod;
+                    }
+                    ret = ret * inverse (co, mod) % mod;
+                }
+                while (mat[row][col] != 0) {
+                    ll t = mat[col][col] / mat[row][col];
+                    if (t)
+                        for (int k = col; k < n; ++k) {
+                            mat[col][k] = MOD (mat[col][k] - mat[row][k] * t, mod);
+                        }
+                    swap (mat[col], mat[row]);
+                    ret *= -1;
                 }
             }
-        if (mat[i][i] == 0) return 0;
-        ret = ret * mat[i][i] % mod;
+        }
+        ret *= mat[col][col];
+        ret %= mod;
     }
-    if (ret < 0) ret += mod;
-    return (int) ret;
+    return MOD (ret, mod);
 }
