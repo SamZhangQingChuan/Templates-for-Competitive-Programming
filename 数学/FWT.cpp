@@ -9,7 +9,7 @@ void FWT(int a[], int n) {
                 //or:a[i+j+d]=x+y;
             }
 }
-
+1
 void UFWT(int a[], int n) {
     for (int d = 1; d < n; d <<= 1) //你甚至可以RANDOMSHUFFLE
         for (int m = d << 1, i = 0; i < n; i += m)
