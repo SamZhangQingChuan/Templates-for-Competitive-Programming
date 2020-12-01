@@ -83,7 +83,7 @@ void debug_out (Head H, Tail... T) {
 #ifdef LOCAL
 #define dbg(...) cerr << "[" << #__VA_ARGS__ << "]:", debug_out(__VA_ARGS__)
 #else
-#define dbg(...) {}
+#define dbg(...) do {} while(0)
 #endif
 
 template<typename T, typename S>
