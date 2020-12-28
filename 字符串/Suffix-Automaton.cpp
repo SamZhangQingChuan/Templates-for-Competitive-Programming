@@ -1,83 +1,89 @@
 struct SAM {
-    static const int maxn = 300010 * 2;
+    static const int N = 500010 * 2, ALPHABET = 2, BASE = '0';
     struct Node {
-        Node *nxt[26], *fail;
+        Node *nxt[ALPHABET], *fail;
         int cnt;
         int len;
     };
     
     Node *root;
     int cnt;
-    Node no[maxn];
+    Node no[N];
     
-    Node *newNode () {
-        memset (&no[cnt], 0, sizeof (Node));
+    Node *newNode() {
+        memset(&no[cnt], 0, sizeof(Node));
         return &no[cnt++];
     }
     
-    void init () {
+    void init() {
         cnt = 0;
-        root = newNode ();
+        root = newNode();
     }
     
-    SAM () {
-        init ();
+    SAM() {
+        init();
     }
     
-    void add (const string &s) {
+    void add(const string &s) {
         Node *cur = root;
-        REP(i, 0, sz (s)) {
-            cur = add (cur, s[i] - 'a');
+        REP(i, 0, sz(s))
+        {
+            cur = add(cur, s[i]);
         }
     }
     
-    Node *add (Node *p, int c) {
-        Node *cur = newNode ();
+    Node *add(Node *p, int c) {
+        c -= BASE;
+        Node *cur = newNode();
         cur->len = p->len + 1;
-        while (p && !p->nxt[c])p->nxt[c] = cur, p = p->fail;
-        if (!p) {
+        while(p && !p->nxt[c])p->nxt[c] = cur, p = p->fail;
+        if(!p) {
             cur->fail = root;
             return cur;
         }
         Node *q = p->nxt[c];
-        if (q->len == p->len + 1) {
+        if(q->len == p->len + 1) {
             cur->fail = q;
         } else {
-            Node *nq = newNode ();
+            Node *nq = newNode();
             *nq = *q;
             nq->len = p->len + 1;
             q->fail = cur->fail = nq;
-            while (p && p->nxt[c] == q)p->nxt[c] = nq, p = p->fail;
+            while(p && p->nxt[c] == q)p->nxt[c] = nq, p = p->fail;
         }
         return cur;
     }
     
-    void pre (const string &s) {
+    void pre(const string &s) {
         Node *cur = root;
-        REP(i, 0, sz (s)) {
-            cur = cur->nxt[s[i] - 'a'];
+        REP(i, 0, sz(s))
+        {
+            cur = cur->nxt[s[i] - BASE];
             cur->cnt++;
         }
     }
     
     //call pre first
     //return sum of cnt
-    void getCnt () {
-        vector<Node *> v;
-        REP(i, 1, cnt) {
-            v.PB (&no[i]);
+    void getCnt() {
+        vector < Node * > v;
+        REP(i, 1, cnt)
+        {
+            v.PB(&no[i]);
         }
-        sort (all(v), [] (const Node *a, const Node *b) {
+        sort(all(v), [](const Node *a, const Node *b) {
             return a->len > b->len;
         });
-        REP(i, 0, sz (v)) {
+        REP(i, 0, sz(v))
+        {
             v[i]->fail->cnt += v[i]->cnt;
         }
     }
     
-    ll getNumOfDistinctSubstrings () {
+    ll getNumOfDistinctSubstrings() {
         ll ans = 0;
-        REP(i, 1, cnt)ans += no[i].len - no[i].fail->len;
+        REP(i, 1, cnt)
+        ans += no[i].len - no[i].fail->len;
         return (ans);
     }
 };
