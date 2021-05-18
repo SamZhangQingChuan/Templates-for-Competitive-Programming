@@ -141,8 +141,8 @@ namespace SOLVE {
 
 signed main () {
 #ifdef LOCAL
-    fr("C:\\Users\\qingczha\\CLionProjects\\CP\\input.txt");
-    fw("C:\\Users\\qingczha\\CLionProjects\\CP\\output.txt");
+    fr("/Users/zhangqingchuan/Desktop/cp/cp/input.txt");
+    fw("/Users/zhangqingchuan/Desktop/cp/cp/output.txt");
 #endif
     ios::sync_with_stdio (false);
     cin.tie (nullptr);
