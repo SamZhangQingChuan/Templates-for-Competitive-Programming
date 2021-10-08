@@ -8,8 +8,8 @@
 #define UB upper_bound
 #define fr(x) freopen(x,"r",stdin)
 #define fw(x) freopen(x,"w",stdout)
-#define REP(i, from, to) for(ll i = from;i<to;x++)
-#define RREP(i, from, to) for(ll i = from;i>=to;x--)
+#define REP(i, from, to) for(ll i = from;i<to;i++)
+#define RREP(i, from, to) for(ll i = from;i>=to;i--)
 #define complete_unique(a) a.erase(unique(begin(a),end(a)),end(a))
 #define mst(x, a) memset(x,a,sizeof(x))
 #define all(a) begin(a),end(a)
