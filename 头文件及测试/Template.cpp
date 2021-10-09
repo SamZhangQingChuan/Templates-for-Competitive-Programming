@@ -14,8 +14,6 @@
 #define mst(x, a) memset(x,a,sizeof(x))
 #define all(a) begin(a),end(a)
 #define rall(a) rbegin(a),rend(a)
-#define PII pair<int,int>
-#define PLL pair<ll,ll>
 #define MP make_pair
 #define lowbit(x) ((x)&(-(x)))
 #define bitcnt(x) (__builtin_popcountll(x))
@@ -26,15 +24,18 @@
 #define sz(x) ((int)x.size())
 #define EX0 exit(0);
 
-typedef long long ll;
-typedef unsigned long long ull;
-typedef double db;
-typedef long double ld;
+using ll = long long;
+using ull = unsigned long long;
+using db = double;
+using ld = long double;
+using VLL = std::vector<ll>;
+using VI = std::vector<int>;
+using PII = std::pair<int, int>;
+using PLL = std::pair<ll, ll>;
+
 using namespace __gnu_pbds; //required
 using namespace std;
 template<typename T> using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
-typedef vector<ll> VLL;
-typedef vector<int> VI;
 const ll mod = 1e9 + 7;
 
 
@@ -97,6 +98,9 @@ ll inverse(ll a, ll m) {
 
 template<typename T>
 T sqr(T x) { return x * x; }
+
+template<typename T>
+ll sz(const T &x) { return x.size(); }
 
 ll fast(ll a, ll b, ll mod) {
     a %= mod;
