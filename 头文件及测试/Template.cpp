@@ -21,7 +21,6 @@
 #define rson (ind<<1|1)
 #define se second
 #define fi first
-#define sz(x) ((int)x.size())
 #define EX0 exit(0);
 
 using ll = long long;
