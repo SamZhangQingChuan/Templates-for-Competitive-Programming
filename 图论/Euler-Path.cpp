@@ -76,7 +76,7 @@ namespace EulerPath {
     
     
     void init (int n, const vector <PII> &edges) {
-        REP (i, 0, n + 1)
+        REP (i, 0, n)
         adj[i].clear ();
         path.clear ();
         for (auto e:edges) {
@@ -95,6 +95,7 @@ namespace EulerPath {
             for (auto e:edges) {
                 n = max (n, max (e.first, e.second));
             }
+            n++;
             init (n, edges);
             int source = getSource (n, edges[0].first);
             find_path (source);
