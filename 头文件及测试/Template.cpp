@@ -120,15 +120,22 @@ namespace SOLVE {
     }
 }
 
+#ifdef __APPLE__
+#define INPUT_FILE "/Users/qingczha/Desktop/cp/input.txt"
+#define OUTPUT_FILE "/Users/qingczha/Desktop/cp/output.txt"
+#else
+#define INPUT_FILE ""
+#define OUTPUT_FILE ""
+#endif
+
 signed main() {
 #ifdef LOCAL
-    fr("/Users/zhangqingchuan/Desktop/cp/cp/input.txt");
-    fw("/Users/zhangqingchuan/Desktop/cp/cp/output.txt");
+    fr(INPUT_FILE);
+    fw(OUTPUT_FILE);
 #endif
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    
     
     int t = 1;
 //    cin >> t;
