@@ -121,8 +121,8 @@ namespace SOLVE {
 }
 
 #ifdef __APPLE__
-#define INPUT_FILE "/Users/qingczha/Desktop/cp/input.txt"
-#define OUTPUT_FILE "/Users/qingczha/Desktop/cp/output.txt"
+#define INPUT_FILE "/Users/qingczha/ClionProjects/Playground/input.txt"
+#define OUTPUT_FILE "/Users/qingczha/ClionProjects/Playground/output.txt"
 #else
 #define INPUT_FILE ""
 #define OUTPUT_FILE ""
