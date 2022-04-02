@@ -124,8 +124,8 @@ namespace SOLVE {
 #define INPUT_FILE "/Users/qingczha/ClionProjects/Playground/input.txt"
 #define OUTPUT_FILE "/Users/qingczha/ClionProjects/Playground/output.txt"
 #else
-#define INPUT_FILE ""
-#define OUTPUT_FILE ""
+#define INPUT_FILE "C:/Users/qingczha/CLionProjects/playground/input.txt"
+#define OUTPUT_FILE "C:/Users/qingczha/CLionProjects/playground/output.txt"
 #endif
 
 signed main() {
