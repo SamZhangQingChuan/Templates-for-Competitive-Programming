@@ -2,4 +2,4 @@
 *.pdf
 *.sh
 *.py
-.idea
+**/.idea
