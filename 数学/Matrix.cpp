@@ -1,3 +1,4 @@
+template<long long mod>
 struct matrix {
     //add mod at last if there is negative number
     vector <VLL> v;
