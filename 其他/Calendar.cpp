@@ -1,4 +1,4 @@
-#include "bits/stdc++.h"
+#include <cstdio>
 
 int week(int y, int m, int d) {
     if (m < 3) {
@@ -9,11 +9,6 @@ int week(int y, int m, int d) {
     return w;
 }
 
-int main() {
-    printf("%d\n", week(2015, 4, 16));  // => 3 Thursday
-    printf("%d\n", week(1989, 2, 3));   // => 4 Friday
-    return 0;
-}
 
 bool isLeap(int year) {
     return year % 400 == 0 || (year % 4 == 0 && year % 100 != 0);
@@ -26,3 +21,8 @@ int getDays(int year, int month) {
 }
 
 
+int main() {
+    std::printf("%d\n", week(2015, 4, 16));  // => 3 Thursday
+    std::printf("%d\n", week(1989, 2, 3));   // => 4 Friday
+    return 0;
+}
