@@ -1,3 +1,5 @@
+#include <vector>
+
 struct DSU {
     std::vector<int> data;
     
