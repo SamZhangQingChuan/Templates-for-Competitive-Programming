@@ -143,9 +143,12 @@ namespace SOLVE {
 #ifdef __APPLE__
 #define INPUT_FILE "/Users/qingczha/ClionProjects/LeetCode/input.txt"
 #define OUTPUT_FILE "/Users/qingczha/ClionProjects/LeetCode/output.txt"
-#else
+#elifdef _WIN64
 #define INPUT_FILE "C:/Users/qingczha/CLionProjects/playground/input.txt"
 #define OUTPUT_FILE "C:/Users/qingczha/CLionProjects/playground/output.txt"
+#elifdef __linux__
+#define INPUT_FILE "/home/qingczha/proj/Playground/input.txt"
+#define OUTPUT_FILE "/home/qingczha/proj/Playground/output.txt"
 #endif
 
 signed main() {
