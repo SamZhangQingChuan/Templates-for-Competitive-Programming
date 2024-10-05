@@ -4,7 +4,7 @@
 struct KM {
     typedef long long cost_t;
     static const int N = 1000;
-    static const cost_t inf = 1e9;
+    static constexpr cost_t inf = 1e9;
     cost_t lx[N], ly[N], sl[N];
     int px[N], py[N], sy[N], fa[N], n;
     
