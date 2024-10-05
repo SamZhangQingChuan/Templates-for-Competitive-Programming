@@ -1,46 +1,119 @@
-struct Hungarian {
-    std::vector<int> vc, is;// vertex corver and independent set
-    std::vector<int> pos, neg;// pos为左侧点所匹配到的右侧点编号, neg反之
-    std::vector<bool> vis, mark;// 分别记录左右点的访问情况
-    // 左侧点数目n, 右侧点数目m, 以及左边点到右边点的边表
-    // 返回最大匹配数目, 方案存在pos和neg里面
-    // vc和is记录了最小点覆盖和最大独立集的方案
-    int run(int n, int m, std::vector<int> edges[]) {
-        neg.assign(m, -1), pos.assign(n, -1);
-        mark.resize(m), vis.resize(n);
-        int ret = 0;
-        for (int i = 0; i < n; ++i) {
-            std::fill(mark.begin(), mark.end(), false);
-            std::fill(vis.begin(), vis.end(), false);
-            if (aug(i, edges)) ++ret;
-        }
-        std::fill(mark.begin(), mark.end(), false);
-        std::fill(vis.begin(), vis.end(), false);
-        for (int i = 0; i < n; ++i) {
-            if (pos[i] == -1) aug(i, edges);
-        }
-        vc.clear(), is.clear();
-        for (int i = 0; i < n; ++i) {
-            if (!vis[i]) vc.push_back(i);
-            else is.push_back(i);
-        }
-        for (int i = 0; i < m; ++i) {
-            if (mark[i]) vc.push_back(i);
-            else is.push_back(i);
-        }
-        return ret;
+#include <bits/stdc++.h>
+
+using namespace std;
+
+template<typename T>
+struct hungarian {  // km
+    int n;
+    vector<int> matchx;
+    vector<int> matchy;
+    vector<int> pre;
+    vector<bool> visx;
+    vector<bool> visy;
+    vector<T> lx;
+    vector<T> ly;
+    vector<vector<T> > g;
+    vector<T> slack;
+    T inf;
+    T res;
+    queue<int> q;
+
+    hungarian(int _n, int _m) {
+        n = max(_n, _m);
+        inf = numeric_limits<T>::max();
+        res = 0;
+        g = vector<vector<T> >(n, vector<T>(n));
+        matchx = vector<int>(n, -1);
+        matchy = vector<int>(n, -1);
+        pre = vector<int>(n);
+        visx = vector<bool>(n);
+        visy = vector<bool>(n);
+        lx = vector<T>(n, -inf);
+        ly = vector<T>(n);
+        slack = vector<T>(n);
     }
-    
-    bool aug(int u, std::vector<int> edges[]) {
-        vis[u] = true;
-        for (auto &&v: edges[u])
-            if (!mark[v]) {
-                mark[v] = true;
-                if (neg[v] == -1 || aug(neg[v], edges)) {
-                    pos[u] = v, neg[v] = u;
-                    return true;
+
+    void addEdge(int u, int v, T w) {
+        assert(w >= 0);
+        g[u][v] = w;
+    }
+
+    bool check(int v) {
+        visy[v] = true;
+        if (matchy[v] != -1) {
+            q.push(matchy[v]);
+            visx[matchy[v]] = true;
+            return false;
+        }
+        while (v != -1) {
+            matchy[v] = pre[v];
+            swap(v, matchx[pre[v]]);
+        }
+        return true;
+    }
+
+    void bfs(int i) {
+        while (!q.empty()) {
+            q.pop();
+        }
+        q.push(i);
+        visx[i] = true;
+        while (true) {
+            while (!q.empty()) {
+                int u = q.front();
+                q.pop();
+                for (int v = 0; v < n; v++) {
+                    if (!visy[v]) {
+                        T delta = lx[u] + ly[v] - g[u][v];
+                        if (slack[v] >= delta) {
+                            pre[v] = u;
+                            if (delta) {
+                                slack[v] = delta;
+                            } else if (check(v)) {
+                                return;
+                            }
+                        }
+                    }
                 }
             }
-        return false;
+            // 没有增广路 修改顶标
+            T a = inf;
+            for (int j = 0; j < n; j++) {
+                if (!visy[j]) {
+                    a = min(a, slack[j]);
+                }
+            }
+            for (int j = 0; j < n; j++) {
+                if (visx[j]) {  // S
+                    lx[j] -= a;
+                }
+                if (visy[j]) {  // T
+                    ly[j] += a;
+                } else {  // T'
+                    slack[j] -= a;
+                }
+            }
+            for (int j = 0; j < n; j++) {
+                if (!visy[j] && slack[j] == 0 && check(j)) {
+                    return;
+                }
+            }
+        }
+    }
+
+    void solve() {
+        // 初始顶标
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                lx[i] = max(lx[i], g[i][j]);
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            fill(slack.begin(), slack.end(), inf);
+            fill(visx.begin(), visx.end(), false);
+            fill(visy.begin(), visy.end(), false);
+            bfs(i);
+        }
     }
 };
