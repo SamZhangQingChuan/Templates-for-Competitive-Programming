@@ -21,7 +21,6 @@
 #define rson (ind<<1|1)
 #define se second
 #define fi first
-#define EX0 exit(0);
 
 using ll = long long;
 using ull = unsigned long long;
@@ -51,8 +50,8 @@ template<typename A>
 string to_string(A v) {
     bool first = true;
     string res = "{";
-    for(const auto &x: v) {
-        if(!first) { res += ", "; }
+    for (const auto &x: v) {
+        if (!first) { res += ", "; }
         first = false;
         res += to_string(x);
     }
@@ -74,24 +73,24 @@ void debug_out(Head H, Tail... T) {
 #define dbg(...) do {} while(0)
 #endif
 
-template<typename T, typename S>
-inline bool upmin(T &a, const S &b) { return a > b ? a = b, 1 : 0; }
+template<typename T, typename U>
+void setmin(T &a, U b) { if (b < a) a = b; }
 
-template<typename T, typename S>
-inline bool upmax(T &a, const S &b) { return a < b ? a = b, 1 : 0; }
+template<typename T, typename U>
+void setmax(T &a, U b) { if (b > a) a = b; }
 
 
 ull twop(ll x) { return 1ULL << x; }
 
 ll MOD(ll a, ll m) {
     a %= m;
-    if(a < 0)a += m;
+    if (a < 0)a += m;
     return a;
 }
 
 ll inverse(ll a, ll m) {
     a = MOD(a, m);
-    if(a <= 1)return a;
+    if (a <= 1)return a;
     return MOD((1 - inverse(m, a) * m) / a, m);
 }
 
@@ -103,10 +102,10 @@ ll sz(const T &x) { return x.size(); }
 
 ll fast(ll a, ll b, ll mod) {
     a %= mod;
-    if(b < 0)a = inverse(a, mod), b = -b;
+    if (b < 0)a = inverse(a, mod), b = -b;
     ll ans = 1;
-    while(b) {
-        if(b & 1)ans = ans * a % mod;
+    while (b) {
+        if (b & 1)ans = ans * a % mod;
         a = a * a % mod;
         b /= 2;
     }
@@ -114,29 +113,12 @@ ll fast(ll a, ll b, ll mod) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #ifdef LOCAL
 
 
 namespace SOLVE {
     void main() {
-    
+
     }
 }
 
@@ -157,13 +139,13 @@ signed main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    
+
     int t = 1;
 //    cin >> t;
-    for(int i = 1; i <= t; i++) {
+    for (int i = 1; i <= t; i++) {
 //        cout<<"Case #"<<i<<": ";
         SOLVE::main();
-        
+
     }
 
 
@@ -177,12 +159,12 @@ signed main() {
 //    while(clock() - st < 3.0 * CLOCKS_PER_SEC){
 //
 //    }
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     return 0;
 }
 
