@@ -38,7 +38,7 @@ namespace fft {
         }
     };
     
-    const long double pi = M_PI;
+    const long double pi = std::numbers::pi;
     Complex w[N];
     int rev[N];
     
