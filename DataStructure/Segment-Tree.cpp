@@ -1,4 +1,7 @@
 struct SegTree {
+#define lson (ind<<1)
+#define rson (ind<<1|1)
+
     static const int maxn =;
     
     struct node {

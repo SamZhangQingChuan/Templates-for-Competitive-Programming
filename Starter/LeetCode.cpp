@@ -17,8 +17,6 @@
 #define MP make_pair
 #define lowbit(x) ((x)&(-(x)))
 #define bitcnt(x) (__builtin_popcountll(x))
-#define lson (ind<<1)
-#define rson (ind<<1|1)
 #define se second
 #define fi first
 
